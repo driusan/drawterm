@@ -1,0 +1,4 @@
+*.o
+drawterm
+drawterm.x11
+.hg
