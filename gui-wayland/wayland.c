@@ -635,6 +635,7 @@ static void xdg_toplevel_configure(
 {
 	// struct client_state *state = data;
 	if (width == 0 || height == 0) {
+		printf("using own size\n");
 		if (window.surface) {
 			window.buffer = create_buffer(window.width, window.height);
 		}
@@ -642,6 +643,7 @@ static void xdg_toplevel_configure(
 	}
 	window.width = width;
 	window.height = height;
+	printf("want %dx%d\n", width, height);
 	if (window.surface) {	
 	window.buffer = create_buffer(window.width, window.height);
 	}
