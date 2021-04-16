@@ -1,4 +1,5 @@
 *.o
 drawterm
 drawterm.x11
+gui-wayland/libgui.a
 .hg
