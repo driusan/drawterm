@@ -3,7 +3,8 @@ include ../Make.config
 LIB=libgui.a
 
 WAYLAND_PROTOCOLS_DIR = $(shell pkg-config wayland-protocols --variable=pkgdatadir)
-WAYLAND_SCANNER = $(shell pkg-config --variable=wayland_scanner wayland-scanner)
+#WAYLAND_SCANNER = $(shell pkg-config --variable=wayland_scanner wayland-scanner)
+WAYLAND_SCANNER=wayland-scanner
 XDG_SHELL_PROTOCOL = $(WAYLAND_PROTOCOLS_DIR)/stable/xdg-shell/xdg-shell.xml
 
 OFILES=\

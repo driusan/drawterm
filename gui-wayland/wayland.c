@@ -599,7 +599,7 @@ registry_global_handler(void *data, struct wl_registry *registry, uint32_t name,
 		xdg_wm_base = wl_registry_bind(registry, name, &xdg_wm_base_interface, 1);
 	} else if (strcmp(interface, wl_seat_interface.name) == 0) {
 		wl_seat = wl_registry_bind(
-			registry, name, &wl_seat_interface, 7);
+			registry, name, &wl_seat_interface, 5);
 		//wl_seat_add_listener(wl_seat, &wl_seat_listener, state);
 		wl_seat_add_listener(wl_seat, &wl_seat_listener, state);
 	}
@@ -635,18 +635,30 @@ static void xdg_toplevel_configure(
 {
 	// struct client_state *state = data;
 	if (width == 0 || height == 0) {
-		printf("using own size\n");
+		printf("using own size %dx%d\n", window.width, window.height);
 		if (window.surface) {
+			fprintf(stderr, "createing buffer %dx%d\n", window.width, window.height);
 			window.buffer = create_buffer(window.width, window.height);
+		} else {
+			fprintf(stderr, "no surface 1\n");
 		}
+
+		qlock(&drawlock);
+		flushmemscreen(gscreen->clipr);
+		qunlock(&drawlock);
 		return;
 	}
 	window.width = width;
 	window.height = height;
-	printf("want %dx%d\n", width, height);
+	printf("want window of %dx%d\n", width, height);
 	if (window.surface) {	
-	window.buffer = create_buffer(window.width, window.height);
+		window.buffer = create_buffer(window.width, window.height);
+	} else {
+		fprintf(stderr, "no surface 2\n");
 	}
+	qlock(&drawlock);
+	flushmemscreen(gscreen->clipr);
+	qunlock(&drawlock);
 }
 static const struct xdg_toplevel_listener xdg_toplevel_listener = {                  
         .configure = xdg_toplevel_configure,                                                                
@@ -701,6 +713,10 @@ screeninit(void)
 	Rectangle r;
 	window.width = 1024;
 	window.height = 768;
+	/*
+	window.width = 640;
+	window.height = 480;
+	*/
 
 	kproc("wayscreen", wayproc, nil);
 	memimageinit();

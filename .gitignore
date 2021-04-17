@@ -2,4 +2,5 @@
 drawterm
 drawterm.x11
 gui-wayland/libgui.a
+*/*.a
 .hg
