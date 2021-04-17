@@ -656,9 +656,12 @@ static void xdg_toplevel_configure(
 	} else {
 		fprintf(stderr, "no surface 2\n");
 	}
-	qlock(&drawlock);
+
+	screenresize(Rect(0, 0, width, height));
+	/* qlock(&drawlock);
 	flushmemscreen(gscreen->clipr);
 	qunlock(&drawlock);
+*/
 }
 static const struct xdg_toplevel_listener xdg_toplevel_listener = {                  
         .configure = xdg_toplevel_configure,                                                                
